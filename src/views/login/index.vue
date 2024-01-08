@@ -36,7 +36,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -61,14 +61,14 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
+        >登录</el-button
       >
       <el-button
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px;margin-left: 0px;"
         @click.native.prevent="handleResgiter"
-        >Register</el-button
+        >注册</el-button
       >
     </el-form>
     
