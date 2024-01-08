@@ -71,6 +71,7 @@
         >注册</el-button
       >
     </el-form>
+
     
   </div>
 </template>
