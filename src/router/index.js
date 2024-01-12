@@ -54,7 +54,26 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
+  {
+    path: '/rate',
+    component: Layout,
+    children: [{
+      path: 'rate',
+      name: 'rate',
+      component: () => import('@/views/rate/index'),
+      meta: { title: '教师评价', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/department',
+    component: Layout,
+    children: [{
+      path: 'department',
+      name: 'department',
+      component: () => import('@/views/department/index'),
+      meta: { title: '学院管理', icon: 'dashboard' }
+    }]
+  },
   {
     path: '/example',
     component: Layout,
@@ -89,6 +108,19 @@ export const constantRoutes = [
       }
     ]
   },
+
+  {
+    path: '/eval',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'eval',
+        component: () => import('@/views/eval/index'),
+        meta: { title: '评价管理', icon: 'form' }
+      }
+    ]
+  },
   {
     path: '/teacher',
     component: Layout,
@@ -101,7 +133,7 @@ export const constantRoutes = [
       }
     ]
   },
- 
+
   {
     path: 'external-link',
     component: Layout,

@@ -12,14 +12,14 @@
         <h3 class="title">Login Form</h3>
       </div>
 
-      <el-form-item prop="ID">
+      <el-form-item prop="id">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
           ref="id"
           v-model="loginForm.id"
-          placeholder="输入工号或者学号"
+          placeholder="id"
           name="id"
           type="text"
           tabindex="1"
@@ -36,7 +36,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="密码"
+          placeholder="Password"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -61,29 +61,32 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
+        >Login</el-button
       >
       <el-button
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px;margin-left: 0px;"
-        @click.native.prevent="handleResgiter"
-        >注册</el-button
+        >Login</el-button
       >
+      <div class="tips">
+        <span style="margin-right: 20px">username: admin</span>
+        <span> password: any</span>
+      </div>
+      
     </el-form>
-
     
   </div>
 </template>
 
 <script>
-import { validid } from "@/utils/validate";
+import { validUsername } from "@/utils/validate";
 
 export default {
   name: "Login",
   data() {
-    const validateid = (rule, value, callback) => {
-      if (!validid(value)) {
+    const validateUsername = (rule, value, callback) => {
+      if (!validUsername(value)) {
         callback();
       } else {
         callback();
@@ -104,7 +107,7 @@ export default {
       },
       loginRules: {
         id: [
-          { required: true, trigger: "blur", validator: validateid },
+          { required: true, trigger: "blur", validator: validateUsername },
         ],
         password: [
           { required: true, trigger: "blur", validator: validatePassword },
@@ -135,8 +138,10 @@ export default {
       });
     },
     handleLogin() {
+     
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
+        
           this.loading = true;
           this.$store
             .dispatch("user/login", this.loginForm)

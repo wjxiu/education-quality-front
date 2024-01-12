@@ -11,10 +11,13 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import RightToolbar from './components/Right-Toolbar'
+// 分页组件
+import Pagination from "@/components/Pagination";
 import '@/icons' // icon
 import '@/permission' // permission control
-
+Vue.component('RightToolbar', RightToolbar)
+Vue.component('Pagination', Pagination)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
