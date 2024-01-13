@@ -209,7 +209,6 @@ export default {
                     this.$set(targetForm, key, defaultForm[key]);
                 });
             }
-
         }
     }
 };

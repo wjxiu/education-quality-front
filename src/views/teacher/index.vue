@@ -18,25 +18,25 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-button type="primary" plain icon="el-icon-plus" size="mini" @click.native="handleAdd()">新增</el-button>
-    <el-button type="success" plain icon="el-icon-edit" size="mini" @click.native="handleUpdate">修改</el-button>
-    <el-button type="danger" plain icon="el-icon-delete" size="mini" @click.native="handleDelete">删除</el-button>
-    <el-button type="warning" plain icon="el-icon-download" size="mini" @click.native="handleExport">导出</el-button>
-    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-       
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click.native="handleAdd()">新增</el-button>
+
       </el-col>
       <el-col :span="1.5">
-        
+        <el-button type="success" plain icon="el-icon-edit" size="mini" @click.native="handleUpdate">修改</el-button>
+
       </el-col>
       <el-col :span="1.5">
-        
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" @click.native="handleDelete">删除</el-button>
+
       </el-col>
       <el-col :span="1.5">
-       
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click.native="handleExport">导出</el-button>
       </el-col>
-      
+      <el-col :span="1.5">
+        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="teacherList" @selection-change="handleSelectionChange">

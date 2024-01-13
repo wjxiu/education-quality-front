@@ -51,14 +51,14 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
   {
     path: '/rate',
     component: Layout,
     children: [{
-      path: 'rate',
+      path: 'index',
       name: 'rate',
       component: () => import('@/views/rate/index'),
       meta: { title: '教师评价', icon: 'dashboard' }
@@ -68,11 +68,72 @@ export const constantRoutes = [
     path: '/department',
     component: Layout,
     children: [{
-      path: 'department',
+      path: 'index',
       name: 'department',
       component: () => import('@/views/department/index'),
       meta: { title: '学院管理', icon: 'dashboard' }
     }]
+  },
+  {
+    path: '/major',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'major',
+        component: () => import('@/views/major/index'),
+        meta: { title: '专业管理', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/eval',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'eval',
+        component: () => import('@/views/eval/index'),
+        meta: { title: '评价管理', icon: 'form' }
+      }
+    ]
+  },
+
+  {
+    path: '/teacher',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'teacher',
+        component: () => import('@/views/teacher/index'),
+        meta: { title: '教师管理', icon: 'el-icon-platform-eleme' }
+      }
+    ]
+  },
+  {
+    path: '/student',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'student',
+        component: () => import('@/views/student/index'),
+        meta: { title: '学生管理', icon: 'el-icon-platform-eleme' }
+      }
+    ]
+  },
+  {
+    path: '/stuClass',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'stuClass',
+        component: () => import('@/views/stuClass/index'),
+        meta: { title: '班级管理', icon: 'el-icon-platform-eleme' }
+      }
+    ]
   },
   {
     path: '/example',
@@ -109,30 +170,6 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/eval',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'eval',
-        component: () => import('@/views/eval/index'),
-        meta: { title: '评价管理', icon: 'form' }
-      }
-    ]
-  },
-  {
-    path: '/teacher',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'teacher',
-        component: () => import('@/views/teacher/index'),
-        meta: { title: 'teacher', icon: 'form' }
-      }
-    ]
-  },
 
   {
     path: 'external-link',

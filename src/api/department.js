@@ -8,7 +8,14 @@ export function listDepartment(query) {
         params: query
     })
 }
-
+// 查询专业详细
+export function getAllDepartmentName(majorName) {
+    if (majorName === undefined || majorName === null || majorName === '') majorName = ''
+    return request({
+        url: '/department/allName/' + majorName,
+        method: 'get'
+    })
+}
 // 查询部门详细
 export function getDepartment(id) {
     return request({
