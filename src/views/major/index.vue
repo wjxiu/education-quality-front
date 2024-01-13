@@ -189,6 +189,7 @@ export default {
                 this.title = "修改专业";
             });
         },
+        //todo更新会有异常
         /** 提交按钮 */
         submitForm() {
             this.$refs["form"].validate(valid => {
