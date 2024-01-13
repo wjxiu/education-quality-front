@@ -66,6 +66,12 @@
                 <el-form-item label="专业名" prop="majorName">
                     <el-input v-model="form.majorName" placeholder="请输入专业名" />
                 </el-form-item>
+                <el-form-item label="学院名" prop="departmentName">
+                    <el-select v-model="form.departmentName" size="small" placeholder="请选择学院名" clearable>
+                        <el-option v-for="type in departmentNames" :key="type" :label="type" :value="type">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -77,7 +83,7 @@
   
 <script>
 import { listMajor, getMajor, delMajor, addMajor, updateMajor } from "@/api/major.js";
-
+import { getAllDepartmentName } from '@/api/department'
 export default {
     name: "Major",
     data() {
@@ -113,11 +119,16 @@ export default {
             form: {},
             // 表单校验
             rules: {
-            }
+            },
+            departmentNames: [],
         };
     },
     created() {
         this.getList();
+        getAllDepartmentName().then(res => {
+            console.log("created");
+            this.departmentNames = res.data
+        })
     },
     methods: {
         /** 查询专业列表 */
@@ -223,7 +234,14 @@ export default {
                     this.$set(targetForm, key, defaultForm[key]);
                 });
             }
-        }
+        },
+        handleDepartmentQueryChange(selectedValue) {
+            // getAllMajorName(selectedValue).then(res => {
+            //     console.log(this.queryForm);
+            //     this.queryParams.majorName = ''
+            //     this.majorNames = res.data
+            // })
+        },
     }
 };
 </script>
