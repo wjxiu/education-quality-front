@@ -1,11 +1,17 @@
 import request from '@/utils/request'
 
-export function getAllTeacher() {
-  return request({
-    url: '/student/getallteacher',
-    method: 'get'
-
-  })
+export function getAllTeacher(stuId) {
+  if (stuId === undefined || stuId === null) {
+    return request({
+      url: '/student/getStuTeacher/',
+      method: 'get'
+    })
+  } else {
+    return request({
+      url: '/student/getStuTeacher/' + stuId,
+      method: 'get'
+    })
+  }
 }
 // 查询学生列表
 export function listStudent(query) {
@@ -49,3 +55,4 @@ export function delStudent(id) {
     method: 'delete'
   })
 }
+

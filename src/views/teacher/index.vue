@@ -53,8 +53,6 @@
             <el-table-column prop="courseName" label="课程" width="180"></el-table-column>
             <el-table-column prop="departmentName" label="学院" width="180"></el-table-column>
             <el-table-column prop="majorName" label="专业" width="180"></el-table-column>
-            <el-table-column prop="startYear" label="选课年份" width="180"></el-table-column>
-            <el-table-column prop="term" label="学期" width="180"></el-table-column>
           </el-table>
         </template>
       </el-table-column>
@@ -113,6 +111,7 @@ import {
   delTeacher,
   addTeacher,
   updateTeacher,
+  getTeacherClasses,
 } from "@/api/teacher";
 
 export default {

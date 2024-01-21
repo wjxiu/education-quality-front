@@ -225,7 +225,8 @@ export default {
             this.download('system/major/export', {
                 ...this.queryParams
             }, `major_${new Date().getTime()}.xlsx`)
-        }, resetForm(formname) {
+        },
+        resetForm(formname) {
             const targetForm = this.$data[formname];
             console.log(targetForm);
             const defaultForm = { pageNum: 1, pageSize: 10 };

@@ -42,3 +42,9 @@ export function delTeacher(id) {
     method: 'delete'
   })
 }
+export function getTeacherClasses(id) {
+  return request({
+    url: '/teacher/getTeacherClasses/'+id,
+    method: 'get'
+  })
+}

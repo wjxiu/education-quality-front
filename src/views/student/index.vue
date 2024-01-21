@@ -68,6 +68,8 @@
             <el-table-column label="邮箱" align="center" prop="email" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
+                    <el-button size="mini" type="text" icon="el-icon-edit"
+                        @click="handleStuRate(scope.row)">查看评分</el-button>
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
                     <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
                 </template>
@@ -118,11 +120,24 @@
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
+        <el-dialog :title=ShowRateTitle :visible.sync="openShowRate" width="800px"
+            :default-sort="{ prop: 'updateTime', order: 'descending' }" append-to-body>
+            <el-table v-loading="loading" :data="studentRateList">
+                <el-table-column label="教师" align="center" prop="teacherName" />
+                <el-table-column label="班级" align="center" prop="stuClassName" />
+                <el-table-column label="课程" align="center" prop="courseName" />
+                <el-table-column label="评价项" sortable="" align="center" prop="evalItem" />
+                <el-table-column label="评分" align="center" prop="rate" />
+                <el-table-column label="评分时间" align="center" prop="updateTime">
+
+                </el-table-column> -->
+            </el-table>
+        </el-dialog>
     </div>
 </template>
   
 <script>
-import { listStudent, getStudent, delStudent, addStudent, updateStudent } from "@/api/student";
+import { listStudent, getStudent, delStudent, addStudent, updateStudent, getStudentRate } from "@/api/student";
 import { getAllDepartmentName } from '@/api/department'
 import { getAllMajorName } from '@/api/major'
 
@@ -148,6 +163,8 @@ export default {
             title: "",
             // 是否显示弹出层
             open: false,
+            openShowRate: false,
+            ShowRateTitle: '',
             // 查询参数
             queryParams: {
                 pageNum: 1,
@@ -166,7 +183,8 @@ export default {
             rules: {
             },
             departmentNames: [],
-            majorNames: []
+            majorNames: [],
+            studentRateList: [],
         };
     },
     created() {
@@ -328,6 +346,14 @@ export default {
                 this.majorNames = res.data
             })
         },
+        handleStuRate(row) {
+            this.ShowRateTitle = row.realName + " 学生的评价情况"
+            const id = row.id
+            this.openShowRate = true
+            getStudentRate(id).then(res => {
+                this.studentRateList = res.data
+            })
+        }
     }
 };
 </script>

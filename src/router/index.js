@@ -87,6 +87,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/course',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'course',
+        component: () => import('@/views/course/index'),
+        meta: { title: '课程管理', icon: 'form' }
+      }
+    ]
+  },
+  {
     path: '/eval',
     component: Layout,
     children: [
@@ -94,7 +106,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'eval',
         component: () => import('@/views/eval/index'),
-        meta: { title: '评价管理', icon: 'form' }
+        meta: { title: '评价选项管理', icon: 'form' }
       }
     ]
   },
@@ -102,37 +114,50 @@ export const constantRoutes = [
   {
     path: '/teacher',
     component: Layout,
+    // redirct:'/teacher/index',
+    // meta: { title: '教师管理', icon: 'el-icon-platform-eleme' },
     children: [
       {
         path: 'index',
         name: 'teacher',
         component: () => import('@/views/teacher/index'),
         meta: { title: '教师管理', icon: 'el-icon-platform-eleme' }
-      }
+      },
+
     ]
   },
   {
     path: '/student',
     component: Layout,
+    redirect: '/student/index',
+    meta: { title: '学生管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'index',
         name: 'student',
         component: () => import('@/views/student/index'),
-        meta: { title: '学生管理', icon: 'el-icon-platform-eleme' }
+        meta: { title: '学生基本信息', icon: 'el-icon-platform-eleme' }
+      },
+      {
+        path: 'rateDetail',
+        name: 'rateDetail',
+        component: () => import('@/views/student/rateDetail'),
+        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme' }
       }
     ]
   },
   {
     path: '/stuClass',
     component: Layout,
+    redirct:'/stuClass/index',
+    meta: { title: '班级管理', icon: 'el-icon-platform-eleme' },
     children: [
       {
         path: 'index',
         name: 'stuClass',
         component: () => import('@/views/stuClass/index'),
-        meta: { title: '班级管理', icon: 'el-icon-platform-eleme' }
-      }
+        meta: { title: '班级基本信息管理', icon: 'el-icon-platform-eleme' }
+      },
     ]
   },
   {
@@ -142,12 +167,6 @@ export const constantRoutes = [
     name: 'Example',
     meta: { title: 'Example', icon: 'el-icon-s-help' },
     children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
       {
         path: 'tree',
         name: 'Tree',

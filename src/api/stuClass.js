@@ -42,3 +42,23 @@ export function delStuClass(id) {
         method: 'delete'
     })
 }
+export function getStuClassStudent(stuClassId,stuClassSearchForm) {
+  return request({
+    url: '/stuClass/getStuClassStudent/' + stuClassId,
+    method: 'get',
+    params:stuClassSearchForm
+  })
+}
+export function addStuClassStudent(stuClassId,studentId) {
+  return request({
+    url: '/stuClass/addStuClassStudent/',
+    method: 'get',
+    params:{studentId,stuClassId}
+  })
+}
+export function deleteStuClassStudent(stuClassId,studentIds) {
+  return request({
+    url: `/stuClass/deleteClassStudent/${stuClassId}/${studentIds}`,
+    method: 'delete'
+  })
+}
