@@ -10,9 +10,13 @@
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="queryParams.email" placeholder="请输入邮箱" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="管理员标识" prop="adminFlag">
-        <el-input v-model="queryParams.adminFlag" placeholder="请选择管理员标识" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">
+        <el-select v-model="queryParams.adminFlag" placeholder="请选择管理员标识" clearable >
+          <el-option label="是" value="1"></el-option>
+          <el-option label="不是" value="0"></el-option>
+        </el-select>      </el-form-item>
+
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -43,16 +47,22 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column type="expand" width="80">
         <template slot="header">
-          <el-tooltip class="item" effect="dark" content="点击下方箭头图标显示具体课程" placement="top-start">
-            <span><i class="el-icon-question"></i> 课程 </span>
+          <el-tooltip class="item" effect="dark" content="点击下方箭头图标显示具体班级" placement="top-start">
+            <span><i class="el-icon-question"></i> 班级 </span>
           </el-tooltip>
         </template>
         <template slot-scope="props">
-          <el-table :data="props.row.courses">
-            <el-table-column prop="id" label="id" width="180"></el-table-column>
-            <el-table-column prop="courseName" label="课程" width="180"></el-table-column>
-            <el-table-column prop="departmentName" label="学院" width="180"></el-table-column>
-            <el-table-column prop="majorName" label="专业" width="180"></el-table-column>
+          <el-table :data="props.row.stuClassList">
+            <el-table-column label="班级id" align="center" prop="id"/>
+            <el-table-column label="班级名" align="center" prop="name"/>
+            <el-table-column label="课程id" align="center" prop="courseId"/>
+            <el-table-column label="课程名" align="center" prop="courseName"/>
+            <el-table-column label="教师工号" align="center" prop="teacherId"/>
+            <el-table-column label="教师名" align="center" prop="teacherName"/>
+            <el-table-column label="开始年份" align="center" prop="startYear"/>
+            <el-table-column label="学期" align="center" prop="term"/>
+            <el-table-column label="学院名" align="center" prop="departmentName"/>
+            <el-table-column label="专业名" align="center" prop="majorName"/>
           </el-table>
         </template>
       </el-table-column>
@@ -62,7 +72,7 @@
       <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="管理员标识" align="center" prop="adminFlag">
         <template slot-scope="scope">
-          <i :class="scope.row.adminFlag == '1' ? 'el-icon-check' : 'el-icon-close'
+          <i :class="scope.row.adminFlag === '1' ? 'el-icon-check' : 'el-icon-close'
             " style="font-size: 20px"></i>
         </template>
       </el-table-column>
@@ -225,13 +235,13 @@ export default {
         if (valid) {
           if (this.form.id != null) {
             updateTeacher(this.form).then((response) => {
-              this.$modal.msgSuccess("修改成功");
+              this.$message.success("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
             addTeacher(this.form).then((response) => {
-              this.$modal.msgSuccess("新增成功");
+              this.$message.success("新增成功");
               this.open = false;
               this.getList();
             });
@@ -249,7 +259,7 @@ export default {
         })
         .then(() => {
           this.getList();
-          this.$modal.msgSuccess("删除成功");
+          this.$message.success("删除成功");
         })
         .catch(() => { });
     },
@@ -262,6 +272,17 @@ export default {
         },
         `teacher_${new Date().getTime()}.xlsx`
       );
+    },
+    resetForm(formname) {
+      const targetForm = this.$data[formname];
+      console.log(targetForm);
+      const defaultForm = { pageNum: 1, pageSize: 10 };
+      // 如果找到了表单对象，则重置其属性对应的值为默认值
+      if (targetForm) {
+        Object.keys(targetForm).forEach(key => {
+          this.$set(targetForm, key, defaultForm[key]);
+        });
+      }
     },
   },
 };

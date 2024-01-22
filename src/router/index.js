@@ -61,7 +61,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'rate',
       component: () => import('@/views/rate/index'),
-      meta: { title: '教师评价', icon: 'dashboard' }
+      meta: { title: '教师评价', icon: 'el-icon-star-off' }
     }]
   },
   {
@@ -156,51 +156,10 @@ export const constantRoutes = [
         path: 'index',
         name: 'stuClass',
         component: () => import('@/views/stuClass/index'),
-        meta: { title: '班级基本信息管理', icon: 'el-icon-platform-eleme' }
-      },
-    ]
-  },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: { title: '班级管理', icon: 'el-icon-platform-eleme' }
       }
     ]
   },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

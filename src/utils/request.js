@@ -21,6 +21,25 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['Authorization'] = getToken()
     }
+    // Check if the request has a specific parameter (e.g., updateTime) in params and remove it
+    if (config.params!== undefined && config.params.updateTime !== undefined) {
+      delete config.params.updateTime;
+    }
+    // Check if the request has a specific parameter (e.g., updateTime) in data and remove it
+    if (config.data!== undefined && config.data.updateTime !== undefined) {
+      console.log("sdfdsdsf")
+      console.log(config.data.updateTime)
+      delete config.data.updateTime;
+    }
+    // Check if the request has a specific parameter (e.g., updateTime) in params and remove it
+    if (config.params!== undefined && config.params.createTime !== undefined) {
+      delete config.params.updateTime;
+    }
+
+    // Check if the request has a specific parameter (e.g., updateTime) in data and remove it
+    if (config.data!== undefined && config.data.createTime !== undefined) {
+      delete config.data.updateTime;
+    }
     return config
   },
   error => {
@@ -46,7 +65,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-  
+
     if (res.code !== '200') {
       Message({
         message: res.message || 'Error',

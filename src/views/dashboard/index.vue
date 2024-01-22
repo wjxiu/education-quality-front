@@ -1,18 +1,55 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">{{ name }}，欢迎来到学生评价系统</div>
-    <!-- todo 展示统计信息 -->
+    <div class="dashboard-text"> {{name}},欢迎来到学生评价系统</div>
+    <div class="dashboard-text">当前角色为: {{ roleText }}</div>
+    <div class="dashboard-text">
+      <div v-if="StudentRemainStuClassRateList.length>0">
+        未完成评价的班级：
+        <ul>
+          <li v-for=" item in StudentRemainStuClassRateList">{{item}}</li>
+        </ul>
+      </div>
+      <div v-else>已经全部完成评价</div>
+    </div>
+
+
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
+import {getStudentRateSituation,getStudentRemainStuClassRate,getStuClassRateSituation} from '@/api/satistics'
 export default {
   name: 'Dashboard',
+  data(){
+    return {
+      roleText:'',
+      // 教师的学生的评价情况
+      StudentRateSituation:[],
+      // 学生未评价的
+      StudentRemainStuClassRateList:[],
+      ClassRateSituationRespList:[],
+    }
+  },
+  created() {
+    if (this.type===0){
+      this.roleText='学生'
+      getStudentRemainStuClassRate(this.id).then(res=>{
+        this.StudentRemainStuClassRateList=res.data
+        console.log(res)
+      })
+    }else if (this.type===1){
+      this.roleText='教师'
+      getStudentRateSituation(this.id).then(res=>{
+        this.StudentRateSituation=res.data
+      })
+    }else if (this.type===2){
+      this.roleText='管理员'
+    }
+  },
   computed: {
     ...mapGetters([
-      'name'
+      'name','id','type'
     ])
   }
 }
