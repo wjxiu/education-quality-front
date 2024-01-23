@@ -11,7 +11,8 @@
         <el-select v-model="queryParams.adminFlag" placeholder="请选择管理员标识" clearable >
           <el-option label="是" value="1"></el-option>
           <el-option label="不是" value="0"></el-option>
-        </el-select>      </el-form-item>
+        </el-select>
+      </el-form-item>
 
 
       <el-form-item>
@@ -67,7 +68,7 @@
       <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="管理员标识" align="center" prop="adminFlag">
         <template slot-scope="scope">
-          <i :class="scope.row.adminFlag === '1' ? 'el-icon-check' : 'el-icon-close'
+          <i :class="scope.row.adminFlag === 1 ? 'el-icon-check' : 'el-icon-close'
             " style="font-size: 20px"></i>
         </template>
       </el-table-column>
@@ -97,8 +98,11 @@
         <el-form-item label="密码" prop="password">
           <el-input v-model="form.password" placeholder="请输入密码" />
         </el-form-item>
-        <el-form-item label="管理员标识" prop="adminFlag">
-          <el-input v-model="form.adminFlag" placeholder="请输入管理员标识" />
+        <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">
+          <el-select v-model="form.adminFlag" placeholder="请选择管理员标识" clearable >
+            <el-option label="是" value="1"></el-option>
+            <el-option label="不是" value="0"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
