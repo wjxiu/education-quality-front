@@ -25,9 +25,7 @@
                 <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple"
                     @click="handleDelete">删除</el-button>
             </el-col>
-            <el-col :span="1.5">
-                <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
-            </el-col>
+
             <el-col :span="1.5">
                 <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
             </el-col>
@@ -62,7 +60,7 @@
         </el-dialog>
     </div>
 </template>
-  
+
 <script>
 import { listDepartment, getDepartment, delDepartment, addDepartment, updateDepartment } from "@/api/department";
 
@@ -214,4 +212,3 @@ export default {
     }
 };
 </script>
-  
