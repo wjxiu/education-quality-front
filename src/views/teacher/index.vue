@@ -1,14 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="80px">
+      <el-form-item label="工号" prop="id">
+        <el-input v-model="queryParams.id" placeholder="请输入工号" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
       <el-form-item label="姓名" prop="realName">
         <el-input v-model="queryParams.realName" placeholder="姓名" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="手机号" prop="phone">
-        <el-input v-model="queryParams.phone" placeholder="请输入手机号" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="queryParams.email" placeholder="请输入邮箱" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">
         <el-select v-model="queryParams.adminFlag" placeholder="请选择管理员标识" clearable >
@@ -151,7 +148,6 @@ export default {
         pageSize: 10,
         realName: null,
         phone: null,
-        email: null,
         password: null,
         adminFlag: null,
       },
@@ -186,7 +182,6 @@ export default {
         id: null,
         realName: null,
         phone: null,
-        email: null,
         createTime: null,
         updateTime: null,
         delFlag: null,
@@ -213,7 +208,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      //this.reset();
+      this.reset();
       this.open = true;
       this.title = "添加【请填写功能名称】";
     },
@@ -250,8 +245,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal
-        .confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？')
+      this.$confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？')
         .then(function () {
           return delTeacher(ids);
         })
