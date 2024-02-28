@@ -71,7 +71,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'department',
       component: () => import('@/views/department/index'),
-      meta: { title: '学院管理', icon: 'dashboard' }
+      meta: { title: '学院管理', icon: 'dashboard' ,role: ['admin','super_editor'] }
     }]
   },
   {
@@ -94,7 +94,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'course',
         component: () => import('@/views/course/index'),
-        meta: { title: '课程管理', icon: 'form' }
+        meta: { title: '课程管理', icon: 'form',roles:['admin'] }
       }
     ]
   },
@@ -163,7 +163,9 @@ export const constantRoutes = [
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
+export const asyncRoutes = [
 
+]
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),

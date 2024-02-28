@@ -23,20 +23,28 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
-
 export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar','roles'
     ]),
     routes() {
+
       return this.$router.options.routes
     },
     activeMenu() {
+      const map={
+        'student':['首页','教师评价',],
+        'teacher':['首页']
+      }
       const route = this.$route
+      console.log(route);
       const { meta, path } = route
+      console.info("🚀 ~ file: method: line: -----"+this.roles)
+      console.info("🚀 ~ file: method: line: -----"+meta.title)
       // if set path, the sidebar will highlight the path you set
+      // if (map.student.includes(meta.title))
       if (meta.activeMenu) {
         return meta.activeMenu
       }

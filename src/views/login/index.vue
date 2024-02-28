@@ -35,12 +35,7 @@
       <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin">Login</el-button>
       <el-button :loading="loading" type="primary"
-        style="width: 100%; margin-bottom: 30px;margin-left: 0px;">Login</el-button>
-      <div class="tips">
-        <span style="margin-right: 20px">username: admin</span>
-        <span> password: any</span>
-      </div>
-
+        style="width: 100%; margin-bottom: 30px;margin-left: 0px;">Register</el-button>
     </el-form>
 
   </div>
@@ -105,10 +100,8 @@ export default {
       });
     },
     handleLogin() {
-
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-
           this.loading = true;
           this.$store
             .dispatch("user/login", this.loginForm)

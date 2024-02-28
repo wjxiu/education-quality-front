@@ -37,7 +37,7 @@
         </el-container>
     </div>
 </template>
-  
+
 <script>
 import { getAlleval, submitEval } from '@/api/rate.js'
 import { getAllTeacher } from '@/api/student'

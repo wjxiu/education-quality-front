@@ -84,7 +84,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="xx课程xx班级学生列表" :visible.sync="openChangeStudents" width="700px" append-to-body>
+    <el-dialog title="ClassStudentFormName" :visible.sync="openChangeStudents" width="700px" append-to-body>
       <el-form :model="stuClassSearchForm" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
         <el-form-item label="学生id" prop="studentId">
           <el-input v-model="stuClassSearchForm.studentId" placeholder="请输入学生id" clearable @keyup.enter.native="handleClassStudent()"/>
@@ -251,6 +251,7 @@ export default {
       students:[],
       addStudentId:null,
       stuClassSearchForm:{studentId: null,studentName:null},
+      ClassStudentFormName:'',
     };
   },
   created() {
@@ -417,6 +418,7 @@ export default {
       if (row !== null&&row!==undefined){
         this.selectedStuClass=row
       }
+      // this.ClassStudentFormName=
     var param=  {studentId:this.stuClassSearchForm.studentId,
         studentName:this.stuClassSearchForm.studentName}
       getStuClassStudent(this.selectedStuClass.id,param).then(res=>{
