@@ -52,7 +52,6 @@ export default {
       this.roleText = '学生'
       getStudentRemainStuClassRate(this.id).then(res => {
         this.StudentRemainStuClassRateList = res.data
-        console.log(res)
       })
     } else if (this.type === 1) {
       this.roleText = '教师'

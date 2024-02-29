@@ -61,7 +61,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'rate',
       component: () => import('@/views/rate/index'),
-      meta: { title: '教师评价', icon: 'el-icon-star-off' }
+      meta: { title: '教师评价', icon: 'el-icon-star-off',roles:['admin','student'] }
     }]
   },
   {
@@ -71,7 +71,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'department',
       component: () => import('@/views/department/index'),
-      meta: { title: '学院管理', icon: 'dashboard' ,role: ['admin','super_editor'] }
+      meta: { title: '学院管理', icon: 'dashboard' ,roles:['admin'] }
     }]
   },
   {
@@ -82,7 +82,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'major',
         component: () => import('@/views/major/index'),
-        meta: { title: '专业管理', icon: 'form' }
+        meta: { title: '专业管理', icon: 'form',roles:['admin'] }
       }
     ]
   },
@@ -106,7 +106,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'eval',
         component: () => import('@/views/eval/index'),
-        meta: { title: '评价选项管理', icon: 'form' }
+        meta: { title: '评价选项管理', icon: 'form',roles:['admin'] }
       }
     ]
   },
@@ -114,14 +114,12 @@ export const constantRoutes = [
   {
     path: '/teacher',
     component: Layout,
-    // redirct:'/teacher/index',
-    // meta: { title: '教师管理', icon: 'el-icon-platform-eleme' },
     children: [
       {
         path: 'index',
         name: 'teacher',
         component: () => import('@/views/teacher/index'),
-        meta: { title: '教师管理', icon: 'el-icon-platform-eleme' }
+        meta: { title: '教师管理', icon: 'el-icon-platform-eleme',roles:['admin'] }
       },
 
     ]
@@ -130,19 +128,19 @@ export const constantRoutes = [
     path: '/student',
     component: Layout,
     redirect: '/student/index',
-    meta: { title: '学生管理', icon: 'el-icon-s-help' },
+    meta: { title: '学生管理', icon: 'el-icon-s-help',roles:['admin'] },
     children: [
       {
         path: 'index',
         name: 'student',
         component: () => import('@/views/student/index'),
-        meta: { title: '学生基本信息', icon: 'el-icon-platform-eleme' }
+        meta: { title: '学生基本信息', icon: 'el-icon-platform-eleme',roles:['admin'] }
       },
       {
         path: 'rateDetail',
         name: 'rateDetail',
         component: () => import('@/views/student/rateDetail'),
-        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme' }
+        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme',roles:['admin','student'] }
       }
     ]
   },
@@ -150,13 +148,13 @@ export const constantRoutes = [
     path: '/stuClass',
     component: Layout,
     redirct:'/stuClass/index',
-    meta: { title: '班级管理', icon: 'el-icon-platform-eleme' },
+    meta: { title: '班级管理', icon: 'el-icon-platform-eleme' ,roles:['admin']},
     children: [
       {
         path: 'index',
         name: 'stuClass',
         component: () => import('@/views/stuClass/index'),
-        meta: { title: '班级管理', icon: 'el-icon-platform-eleme' }
+        meta: { title: '班级管理', icon: 'el-icon-platform-eleme' ,roles:['admin']}
       }
     ]
   },
