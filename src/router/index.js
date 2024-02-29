@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard',roles:['admin',"student",'teacher'] }
     }]
   },
   {
@@ -61,7 +61,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'rate',
       component: () => import('@/views/rate/index'),
-      meta: { title: '教师评价', icon: 'el-icon-star-off',roles:['admin','student'] }
+      meta: { title: '教师评价', icon: 'el-icon-star-off',roles:['student'] }
     }]
   },
   {
@@ -140,7 +140,7 @@ export const constantRoutes = [
         path: 'rateDetail',
         name: 'rateDetail',
         component: () => import('@/views/student/rateDetail'),
-        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme',roles:['admin','student'] }
+        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme',roles:['admin'] }
       }
     ]
   },

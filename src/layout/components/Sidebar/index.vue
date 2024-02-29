@@ -38,32 +38,31 @@ export default {
       }
       const userrole=this.roles;
       // 遍历路由数组
-      // const resu = this.$router.options.routes.filter(route => {
-      //
-      //   if (route.children && route.children.length > 0) {
-      //     // 过滤出符合当前用户角色的子路由
-      //     const filteredChildren = route.children.filter(childRoute => {
-      //       // 检查当前用户角色是否在子路由的角色列表中
-      //       return childRoute.meta.roles !== undefined && childRoute.meta.roles.includes(userrole);
-      //     });
-      //     // 如果存在符合当前用户角色的子路由，则保留父路由并添加过滤后的子路由
-      //     if (filteredChildren.length > 0) {
-      //       // 更新父路由的子路由为符合条件的子路由
-      //       route.children = filteredChildren;
-      //       return true;
-      //     } else {
-      //       return false;
-      //     }
-      //   } else {
-      //     return true;
-      //   }
-      // });
-
+      const resu = this.$router.options.routes.filter(route => {
+        if (route.children && route.children.length > 0) {
+          // 过滤出符合当前用户角色的子路由
+          const filteredChildren = route.children.filter(childRoute => {
+            // 检查当前用户角色是否在子路由的角色列表中
+            return childRoute.meta.roles !== undefined && childRoute.meta.roles.includes(userrole);
+          });
+          // 如果存在符合当前用户角色的子路由，则保留父路由并添加过滤后的子路由
+          if (filteredChildren.length > 0) {
+            // 更新父路由的子路由为符合条件的子路由
+            route.children = filteredChildren;
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return true;
+        }
+      });
+      return resu;
       // console.log(resu);
       // //判断this,roles在route.meta.roles是否存在
       // const { meta, path } = this.$route
       // console.log(meta.roles);
-      return this.$router.options.routes
+      //return this.$router.options.routes
     },
     activeMenu() {
       const { meta, path } = this.$route
