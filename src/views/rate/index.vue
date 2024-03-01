@@ -29,10 +29,23 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-button type="primary" @click="submitEvaluation">提交评价</el-button>
                 </el-main>
+              <hr>
+              <el-footer class="review" height="auto">
+                <span >请输入对{{selectedTeacher.teacherName}}老师的评价（可选，最多一千字）</span>
+                <hr>
+                <el-input  maxlength="1000"
+                           show-word-limit
+                  type="textarea"
+                  rows="4"
+                  placeholder="请输入内容"
+                  v-model="comment">
+                </el-input>
+                <hr>
+                <el-button type="primary" @click="submitEvaluation">提交评分与评价</el-button>
+              </el-footer>
             </el-container>
-            <el-empty description="请选择老师进行评价" v-else
+          <el-empty description="请选择老师进行评价" v-else
                 style="display: flex; justify-content: center; align-items: center;"></el-empty>
         </el-container>
     </div>
@@ -51,6 +64,7 @@ export default {
             selectedTeacher: {},
             //初始的评价
             evaluationItems: [],
+            comment:'',
             //监听之后的变化
             evaluationChangeItems: {},
             evaluationSubmitData: {
@@ -64,6 +78,7 @@ export default {
                     "rate": 0
                 }],
             },
+
         };
     },
     watch: {
@@ -91,19 +106,20 @@ export default {
                     rate: item.question.score,
                     evalItemId: item.question.item.evalId
                 };
-                console.log(newitem);
                 list.push(newitem)
             }
             temp.teacherId = this.selectedTeacher.teacherId;
             temp.list = list;
+            temp.comment=this.comment;
             submitEval(temp).then(res => {
                 this.$message.success("保存成功")
             })
         },
         handlechangeteacher(teacherid) {
             this.selectedTeacher = this.teachers.find((teacher) => teacher.teacherId === teacherid);
-            getAlleval(teacherid).then(res => {
-                this.evaluationItems = res.data.map(item => ({ item, score: item.rate !== null ? item.rate : 0 }));
+            getAlleval(teacherid,this.selectedTeacher.stuClassId).then(res => {
+                this.evaluationItems = res.data.list.map(item => ({ item, score: item.rate !== null ? item.rate : 0 }));
+                this.comment=res.data.comment
             })
         },
         beforeMount: function () {
@@ -148,4 +164,8 @@ body>.el-container {
 aside {
     overflow-y: hidden !important
 }
+.review {
+  display: block; /* 设置为块级元素 */
+}
+
 </style>

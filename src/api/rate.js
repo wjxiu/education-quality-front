@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getAlleval(teacherid) {
+export function getAlleval(teacherid,stuClassId) {
   return request({
-    url: '/eval/stu/' + teacherid,
+    url: '/eval/stu/' + teacherid+"/"+stuClassId,
     method: 'get',
   })
 }

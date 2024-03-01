@@ -158,6 +158,19 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/viewofme',
+    component: Layout,
+    children: [
+      {
+        path: 'viewofme',
+        name: 'viewofme',
+        component: () => import('@/views/review/viewofme'),
+        meta: { title: '关于我的评价', icon: 'el-icon-platform-eleme',roles:['teacher'] }
+      },
+
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

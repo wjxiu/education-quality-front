@@ -45,6 +45,14 @@ export function delTeacher(id) {
 export function getTeacherClasses(id) {
   return request({
     url: '/teacher/getTeacherClasses/'+id,
+    method: 'get',
+
+  })
+}
+
+export function getTeacherCourse(id) {
+  return request({
+    url: '/teacher/getTeacherCourse/'+id,
     method: 'get'
   })
 }
