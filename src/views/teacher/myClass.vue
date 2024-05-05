@@ -8,19 +8,11 @@
         <el-input v-model="queryParams.courseId" placeholder="请输入课程id" clearable
                   @keyup.enter.native="handleQuery"/>
       </el-form-item>
-      <el-form-item label="教师工号" prop="teacherId">
-        <el-input v-model="queryParams.teacherId" placeholder="请输入教师工号" clearable
-                  @keyup.enter.native="handleQuery"/>
-      </el-form-item>
       <el-form-item label="班级名" prop="name">
         <el-input v-model="queryParams.name" placeholder="请输入班级名" clearable @keyup.enter.native="handleQuery"/>
       </el-form-item>
       <el-form-item label="课程名" prop="name">
         <el-input v-model="queryParams.courseName" placeholder="请输入课程名" clearable
-                  @keyup.enter.native="handleQuery"/>
-      </el-form-item>
-      <el-form-item label="教师名" prop="teacherName">
-        <el-input v-model="queryParams.teacherName" placeholder="请输入教师名" clearable
                   @keyup.enter.native="handleQuery"/>
       </el-form-item>
       <el-form-item label="学院名" prop="departmentName">
@@ -42,27 +34,12 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single"
-                   @click="handleUpdate">修改
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="questionVisable=true">自定义问卷
         </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple"
-                   @click="handleDelete">删除
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-upload" size="mini" @click.native="handleImport">导入</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click.stop="downloadTemplate">下载模板</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
       </el-col>
       <el-col :span="1.5">
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -85,8 +62,8 @@
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleClassStudent(scope.row)">查看班级学生
           </el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handlelinkOpen(scope.row)">问卷分配
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,12 +75,15 @@
       @pagination="getList()"
     />
     <el-dialog :title="selectedStuClass.name" :visible.sync="openChangeStudents" width="700px" append-to-body>
-      <el-form :model="stuClassSearchForm" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form :model="stuClassSearchForm" ref="queryForm" size="small" :inline="true" v-show="showSearch"
+               label-width="68px">
         <el-form-item label="学生id" prop="studentId">
-          <el-input v-model="stuClassSearchForm.studentId" placeholder="请输入学生id" clearable @keyup.enter.native="handleClassStudent()"/>
+          <el-input v-model="stuClassSearchForm.studentId" placeholder="请输入学生id" clearable
+                    @keyup.enter.native="handleClassStudent()"/>
         </el-form-item>
         <el-form-item label="学生名" prop="teacherId">
-          <el-input v-model="stuClassSearchForm.studentName" placeholder="请输入学生名" clearable @keyup.enter.native="handleClassStudent()"/>
+          <el-input v-model="stuClassSearchForm.studentName" placeholder="请输入学生名" clearable
+                    @keyup.enter.native="handleClassStudent()"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="handleClassStudent()">搜索</el-button>
@@ -119,14 +99,15 @@
             v-model="AddStudenPopvisible"
             trigger="click">
             <div>
-            <el-input v-model="addStudentId" @keyup.enter.native='handleAddStudentOfClass' placeholder="输入学生id"></el-input>
+              <el-input v-model="addStudentId" @keyup.enter.native='handleAddStudentOfClass'
+                        placeholder="输入学生id"></el-input>
               <el-button @click="handleAddStudentOfClass">确认</el-button>
             </div>
-            <el-button  slot="reference" >新增</el-button>
+            <el-button slot="reference">新增</el-button>
           </el-popover>
         </el-col>
         <el-col :span="1.5">
-          <el-button type="danger" plain icon="el-icon-delete" size="mini"  :disabled="selelctStudentMultiple"
+          <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="selelctStudentMultiple"
                      @click="handleclassStudentDelete">删除
           </el-button>
         </el-col>
@@ -134,18 +115,19 @@
           <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-col>
       </el-row>
-        <el-table :data="students" style="width: 100%" @selection-change="handleSelectionDeleteStudentChange" >
-          <el-table-column type="selection" width="55" align="center"/>
-          <!-- 表格列的配置 -->
-          <el-table-column prop="id" label="学生id" width="180"></el-table-column>
-          <el-table-column prop="realName" label="学生名" width="180"></el-table-column>
-          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-            <template slot-scope="scope">
-              <el-button size="mini" type="text" icon="el-icon-delete"
-                         @click="handleclassStudentDelete(scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <el-table :data="students" style="width: 100%" @selection-change="handleSelectionDeleteStudentChange">
+        <el-table-column type="selection" width="55" align="center"/>
+        <!-- 表格列的配置 -->
+        <el-table-column prop="id" label="学生id" width="180"></el-table-column>
+        <el-table-column prop="realName" label="学生名" width="180"></el-table-column>
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" icon="el-icon-delete"
+                       @click="handleclassStudentDelete(scope.row)">删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="cancel">确 定</el-button>
@@ -157,9 +139,6 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="班级名" prop="name">
           <el-input v-model="form.name" placeholder="请输入班级名"/>
-        </el-form-item>
-        <el-form-item label="教师工号" prop="name">
-          <el-input v-model="form.teacherId" placeholder="请输入教师工号"/>
         </el-form-item>
         <el-form-item label="课程名" prop="name">
           <el-input v-model="form.courseName" placeholder="请输入课程名"/>
@@ -194,25 +173,71 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible="uploadVisible" title="批量导入班级(自动上传)"  :before-close="handleBeforeClose">
-      <el-upload
-        class="upload-demo"
-        action="http://localhost:8081/stuClass/import"
-        :before-upload="beforeUpload"
-        :on-success="handleUploadSuccess"
-        :file-list="file">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传xlsx文件</div>
-      </el-upload>
+    <el-dialog :visible.sync="questionVisable">
+      <el-form :model="questionAdd">
+        <el-form-item label="问卷名">
+          <el-input
+            v-model="questionAdd.questionnaireName"
+            placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="选项" label-width="">
+          <!-- 添加新选项的按钮 -->
+          <el-button type="primary" @click="addOption">添加选项</el-button>
+          <!-- 显示已有的选项 -->
+          <div v-for="(option, index) in questionItems" :key="index" class="option-row">
+            <span style="width:80px">第{{ index + 1 }}项</span>
+            <el-input v-model="option.evalItem" placeholder="请输入选项"></el-input>
+            <el-button type="danger" @click="removeOption(index)">删除</el-button>
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitAddQuestionForm">确定或修改</el-button>
+        <el-button @click="cancelAddQuestionForm">关闭窗口</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="questionLinkVisible" :title="assignTitle" width="70%">
+      <el-table :data="unlinkQuestionList">
+        <el-table-column label="问卷名" prop="questionnaireName"/>
+        <el-table-column label="创建者" prop="createorName"/>
+        <el-table-column label="是否自定义" prop="customizeFlag">
+          <template slot-scope="scope">
+            {{ scope.row.customizeFlag === 1 ? '是' : '否' }}
+          </template>
+        </el-table-column>
+        <el-table-column min-width="200px" label="是否使用该问卷作为调查问卷">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.assignFlag"
+              active-text="使用"
+              inactive-text="不使用"
+              :active-value="1"
+              :inactive-value="0"
+              @change="submitAssginQuestionForm(scope.row)"/>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click=" questionLinkVisible = false">关闭窗口</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {listStuClass, getStuClass, exportExcel,
-  delStuClass, addStuClass, updateStuClass,getStuClassStudent,deleteStuClassStudent,addStuClassStudent} from "@/api/stuClass";
+import {
+  listStuClass,
+  getStuClass,
+  delStuClass,
+  addStuClass,
+  updateStuClass,
+  getStuClassStudent,
+  deleteStuClassStudent,
+  addStuClassStudent
+} from "@/api/stuClass";
 import {getAllDepartmentName} from '@/api/department'
 import {getAllMajorName} from '@/api/major'
+import {addQuestionnaireWithItem, unlinkQuestions, assign} from '@/api/quesitionnaire'
 
 export default {
   name: "StuClass",
@@ -238,15 +263,15 @@ export default {
       open: false,
       openChangeStudents: false,
       // 是否显示添加学生
-      AddStudenPopvisible:false,
-      selelctStudentMultiple:false,
+      AddStudenPopvisible: false,
+      selelctStudentMultiple: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         id: null,
         courseId: null,
-        teacherId: null,
+        teacherId: this.$store.state.user.id,
         name: null,
         teacherName: null,
         departmentName: null,
@@ -260,13 +285,18 @@ export default {
 
       majorNames: [],
       departmentNames: [],
-      selectedStuClass:{},
-      students:[],
-      addStudentId:null,
-      stuClassSearchForm:{studentId: null,studentName:null},
-      ClassStudentFormName:'',
-      uploadVisible:false,
-      file:[],
+      selectedStuClass: {},
+      students: [],
+      addStudentId: null,
+      stuClassSearchForm: {studentId: null, studentName: null},
+      ClassStudentFormName: '',
+      questionVisable: false,
+      questionList: [],
+      questionAdd: {},
+      questionItems: [],
+      questionLinkVisible: false,
+      unlinkQuestionList: [],
+      assignTitle:"",
     };
   },
   created() {
@@ -281,48 +311,54 @@ export default {
     this.getList();
   },
   methods: {
-    handleBeforeClose(){
-      this.uploadVisible=false
-    },
-    downloadTemplate(event){
-      // 创建一个隐藏的链接
-      const link = document.createElement('a');
-      link.href = '/static/班级导入模板.xlsx';
-      link.setAttribute('download', '班级导入模板.xlsx');
-      link.style.display = 'none';
-      document.body.appendChild(link);
-
-      // 触发链接点击事件
-      link.click();
-
-      // 移除链接
-      document.body.removeChild(link);
-
-    },
-    handleUploadError(error, file, fileList) {
-      this.$message.error('文件上传失败，请重试！');
-      console.error('文件上传失败：', error, file, fileList);
-    },
-    handleUploadSuccess(response, file, fileList) {
-      if (response.code==='200'){
-        this.$message.success('文件上传成功');
-        this.getList();
-      }else{
-        this.$message.error('文件上传失败或处理失败');
-        this.getList();
+    submitAssginQuestionForm(row) {
+      console.log(this.selectedStuClass);
+      let newrow = {
+        questionnaireId:row.id,
+        courseId:this.selectedStuClass.courseId,
+        stuClassId:this.selectedStuClass.id,
+        assignFlag:row.assignFlag,
+        customizeFlag:row.customizeFlag
       }
-
+      assign(newrow).then(res => {
+        this.$message.success("修改成功")
+        let param = {stuClassId:this.selectedStuClass.id,   courseId:this.selectedStuClass.courseId,}
+        unlinkQuestions(param).then(res => {
+          console.log(res);
+          this.unlinkQuestionList = res.data
+        //   fixme 添加统一异常处理之后这里的catch不生效了
+        }).catch(err=>{
+          console.info("🚀 ~ file:出错啦啦啦啦啦 method: line: -----",)
+          // unlinkQuestions(param).then(res => {
+          //   console.log(res);
+          //   this.unlinkQuestionList = res.data
+          // })
+        })
+      })
     },
 
-    handleImport(){
-      this.uploadVisible=true
-    },
-    beforeUpload(file){
-      const ismatch=file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      if (!ismatch) {
-        this.$message.error('上传文件只能是 XLSX 格式!');
-        return false;
+    submitAddQuestionForm() {
+      this.$set(this.questionAdd, "customizeFlag", 1);
+      this.$set(this.questionAdd, "itemList", this.questionItems);
+      // 循环遍历数组并删除"content"属性
+      for (var i = 0; i < this.questionItems.length; i++) {
+        delete this.questionItems[i].content;
       }
+      addQuestionnaireWithItem(this.questionAdd).then(res => {
+        this.questionAdd = res.data
+        this.$message.success("添加或者修改成功，确认后手动关闭对话框")
+      })
+    },
+    cancelAddQuestionForm() {
+      this.questionItems = []
+      this.questionAdd = {}
+      this.questionVisable = false
+    },
+    addOption() {
+      this.questionItems.push({content: ''}); // 添加一个新的选项
+    },
+    removeOption(index) {
+      this.questionItems.splice(index, 1); // 删除指定索引的选项
     },
     /** 查询班级列表 */
     getList() {
@@ -336,7 +372,7 @@ export default {
     // 取消按钮
     cancel() {
       this.open = false;
-      this.openChangeStudents=false
+      this.openChangeStudents = false
       this.reset();
     },
     // 表单重置
@@ -344,7 +380,7 @@ export default {
       this.form = {
         id: null,
         courseId: null,
-        teacherId: null,
+        teacherId: this.$store.state.user.id,
         name: null,
         departmentName: null,
         majorName: null,
@@ -372,7 +408,7 @@ export default {
     },
     handleSelectionDeleteStudentChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.selelctStudentMultiple = selection.length<=0
+      this.selelctStudentMultiple = selection.length <= 0
       console.log(this.selelctStudentMultiple)
     },
     /** 新增按钮操作 */
@@ -431,14 +467,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      const a = document.createElement('a')
-      a.href = 'http://localhost:8081/stuClass/export'
-      a.download = '文件名'
-      a.style.display = 'none'
-      a.target = 'downloadFile'
-      document.body.appendChild(a) // 兼容火狐
-      a.click()
-      document.body.removeChild(a) // 移除a标签
+      this.download('system/stuClass/export', {
+        ...this.queryParams
+      }, `stuClass_${new Date().getTime()}.xlsx`)
     },
     resetForm(formname) {
       const targetForm = this.$data[formname];
@@ -478,40 +509,54 @@ export default {
         this.majorNames = res.data
       })
     },
+    handlelinkOpen(row) {
+      this.assignTitle=row.courseName+"|"+row.name+" 分配问卷"
+      this.questionLinkVisible = true
+      console.log(row);
+      this.selectedStuClass=row
+      const {id: stuClassId, courseId} = row;
+      let param = {stuClassId, courseId}
+      unlinkQuestions(param).then(res => {
+        console.log(res);
+        this.unlinkQuestionList = res.data
+      })
+      // this.unlinkQuestionList=
+    },
     handleClassStudent(row) {
-      if (row !== null&&row!==undefined){
-        this.selectedStuClass=row
+      if (row !== null && row !== undefined) {
+        this.selectedStuClass = row
       }
-      // this.ClassStudentFormName=
-    var param=  {studentId:this.stuClassSearchForm.studentId,
-        studentName:this.stuClassSearchForm.studentName}
-      getStuClassStudent(this.selectedStuClass.id,param).then(res=>{
-        this.students=res.data
+      var param = {
+        studentId: this.stuClassSearchForm.studentId,
+        studentName: this.stuClassSearchForm.studentName
+      }
+      getStuClassStudent(this.selectedStuClass.id, param).then(res => {
+        this.students = res.data
       })
       //   查询班级学生
       this.openChangeStudents = true
     },
-    resetClassStudent(){
+    resetClassStudent() {
       this.resetForm("stuClassSearchForm")
-      getStuClassStudent(this.selectedStuClass.id, {}).then(res=>{
-        this.students=res.data
+      getStuClassStudent(this.selectedStuClass.id, {}).then(res => {
+        this.students = res.data
       })
     },
-    handleAddStudentOfClass(){
-      if (!this.addStudentId){
+    handleAddStudentOfClass() {
+      if (!this.addStudentId) {
         this.$message.error("学生id为空")
         return false
       }
       // stuClassId,studentId
-      addStuClassStudent(this.selectedStuClass.id,this.addStudentId).then(res=>{
-        getStuClassStudent(this.selectedStuClass.id,{}).then(res=>{
-          this.students=res.data
+      addStuClassStudent(this.selectedStuClass.id, this.addStudentId).then(res => {
+        getStuClassStudent(this.selectedStuClass.id, {}).then(res => {
+          this.students = res.data
         })
         // 关闭弹窗
         this.AddStudenPopvisible = false
         this.$message.success("添加成功")
       })
-      this.addStudentId=''
+      this.addStudentId = ''
     },
     handleclassStudentDelete(row) {
       console.log(row);
@@ -526,6 +571,20 @@ export default {
         // 处理错误
       });
     }
+
   }
 };
 </script>
+<style scoped>
+.option-row {
+  display: flex;
+  align-items: center;
+}
+
+.option-row > * {
+  margin-right: 10px; /* 调整选项和按钮之间的间距 */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
+

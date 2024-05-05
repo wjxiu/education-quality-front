@@ -33,6 +33,16 @@
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column label="id" align="center" prop="id" />
             <el-table-column label="评价项" align="center" prop="evalItem" />
+          <el-table-column label="问卷id" align="center" prop="questionnaireId">
+            <template slot-scope="scope">
+              {{ scope.row.questionnaireId === -1 ? '' : scope.row.questionnaireId }}
+            </template>
+          </el-table-column>
+          <el-table-column label="问卷名" align="center" prop="questionnaireName">
+            <template slot-scope="scope">
+              {{ scope.row.questionnaireId === -1 ? '' : scope.row.questionnaireName }}
+            </template>
+          </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
@@ -148,7 +158,7 @@ export default {
         handleAdd() {
             this.reset();
             this.open = true;
-            this.title = "添加评分管理";
+            this.title = "添加问卷选项";
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -157,7 +167,7 @@ export default {
             getEval(id).then(response => {
                 this.form = response.data;
                 this.open = true;
-                this.title = "修改评分管理";
+                this.title = "修改问卷选项";
             });
         },
         /** 提交按钮 */

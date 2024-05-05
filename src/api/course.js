@@ -42,6 +42,13 @@ export function delCourse(id) {
     method: 'delete'
   })
 }
+export function allquestionnaire(courseId) {
+  return request({
+    url: '/course/allquestionnaire',
+    method: 'get',
+    params:{courseId}
+  })
+}
 export function getAllCourseNameByMajorName(majorName) {
   var myurl='/course/allName/major/' + majorName;
   if (majorName === undefined||majorName===''){

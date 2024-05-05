@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard',roles:['admin',"student",'teacher'] }
+      meta: { title: '首页', icon: 'dashboard', roles: ['admin', "student", 'teacher'] }
     }]
   },
   {
@@ -61,7 +61,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'rate',
       component: () => import('@/views/rate/index'),
-      meta: { title: '教师评价', icon: 'el-icon-star-off',roles:['student'] }
+      meta: { title: '教师评价', icon: 'el-icon-star-off', roles: ['student'] }
     }]
   },
   {
@@ -71,7 +71,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'department',
       component: () => import('@/views/department/index'),
-      meta: { title: '学院管理', icon: 'dashboard' ,roles:['admin'] }
+      meta: { title: '学院管理', icon: 'dashboard', roles: ['admin'] }
     }]
   },
   {
@@ -82,7 +82,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'major',
         component: () => import('@/views/major/index'),
-        meta: { title: '专业管理', icon: 'form',roles:['admin'] }
+        meta: { title: '专业管理', icon: 'form', roles: ['admin'] }
       }
     ]
   },
@@ -94,22 +94,25 @@ export const constantRoutes = [
         path: 'index',
         name: 'course',
         component: () => import('@/views/course/index'),
-        meta: { title: '课程管理', icon: 'form',roles:['admin'] }
+        meta: { title: '课程管理', icon: 'form', roles: ['admin'] }
       }
     ]
   },
   {
-    path: '/eval',
+    path: '/stuClass',
     component: Layout,
+    redirct: '/stuClass/index',
+    meta: { title: '班级管理', icon: 'el-icon-platform-eleme', roles: ['admin'] },
     children: [
       {
         path: 'index',
-        name: 'eval',
-        component: () => import('@/views/eval/index'),
-        meta: { title: '评价选项管理', icon: 'form',roles:['admin'] }
+        name: 'stuClass',
+        component: () => import('@/views/stuClass/index'),
+        meta: { title: '班级管理', icon: 'el-icon-platform-eleme', roles: ['admin'] }
       }
     ]
   },
+
 
   {
     path: '/teacher',
@@ -119,45 +122,34 @@ export const constantRoutes = [
         path: 'index',
         name: 'teacher',
         component: () => import('@/views/teacher/index'),
-        meta: { title: '教师管理', icon: 'el-icon-platform-eleme',roles:['admin'] }
+        meta: { title: '教师管理', icon: 'el-icon-platform-eleme', roles: ['admin'] }
       },
 
     ]
   },
+
+
   {
     path: '/student',
     component: Layout,
     redirect: '/student/index',
-    meta: { title: '学生管理', icon: 'el-icon-s-help',roles:['admin'] },
+    meta: { title: '学生管理', icon: 'el-icon-s-help', roles: ['admin'] },
     children: [
       {
         path: 'index',
         name: 'student',
         component: () => import('@/views/student/index'),
-        meta: { title: '学生基本信息', icon: 'el-icon-platform-eleme',roles:['admin'] }
+        meta: { title: '学生基本信息', icon: 'el-icon-platform-eleme', roles: ['admin'] }
       },
       {
         path: 'rateDetail',
         name: 'rateDetail',
         component: () => import('@/views/student/rateDetail'),
-        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme',roles:['admin'] }
+        meta: { title: '已评分的评价项', icon: 'el-icon-platform-eleme', roles: ['admin'] }
       }
     ]
   },
-  {
-    path: '/stuClass',
-    component: Layout,
-    redirct:'/stuClass/index',
-    meta: { title: '班级管理', icon: 'el-icon-platform-eleme' ,roles:['admin']},
-    children: [
-      {
-        path: 'index',
-        name: 'stuClass',
-        component: () => import('@/views/stuClass/index'),
-        meta: { title: '班级管理', icon: 'el-icon-platform-eleme' ,roles:['admin']}
-      }
-    ]
-  },
+
   {
     path: '/viewofme',
     component: Layout,
@@ -166,11 +158,78 @@ export const constantRoutes = [
         path: 'viewofme',
         name: 'viewofme',
         component: () => import('@/views/review/viewofme'),
-        meta: { title: '关于我的评价', icon: 'el-icon-platform-eleme',roles:['teacher'] }
+        meta: { title: '关于我的评价', icon: 'el-icon-platform-eleme', roles: ['teacher'] }
       },
-
     ]
   },
+  {
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
+  },
+  {
+    path: '/questionnaire',
+    component: Layout,
+    redirect: '/questionnaire/index',
+    meta: { title: '问卷管理', icon: 'el-icon-s-help', roles: ['admin'] },
+    children: [
+      {
+        path: 'index',
+        name: 'questionnaire',
+        component: () => import('@/views/questionnaire/index.vue'),
+        meta: { title: '问卷', icon: 'el-icon-platform-eleme', roles: ['admin'] }
+      },
+      {
+        path: 'eval',
+        name: 'eval',
+        component: () => import('@/views/eval/index'),
+        meta: { title: '问卷选项', icon: 'form', roles: ['admin'] }
+      },
+      // {
+      //   path: 'question-eval',
+      //   name: 'question-eval',
+      //   component: () => import('@/views/questionnaire/question-eval.vue'),
+      //   meta: { title: '问卷分配', icon: 'el-icon-platform-eleme',roles:['admin'] }
+      // },
+    ]
+  },
+  // {
+  //   path: '/rankofme',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'rankofme',
+  //       name: 'rankofme',
+  //       component: () => import('@/views/rank/rankofme'),
+  //       meta: { title: '评分排名', icon: 'el-icon-platform-eleme',roles:['teacher'] }
+  //     },
+  //   ]
+  // },
+  {
+    path: '/comment',
+    component: Layout,
+    children: [
+      {
+        path: 'comment',
+        name: 'comment',
+        component: () => import('@/views/comment/index.vue'),
+        meta: { title: '评论管理', icon: 'el-icon-platform-eleme', roles: ['admin'] }
+      },
+    ]
+  },
+  {
+    path: '/myClass',
+    component: Layout,
+    children: [
+      {
+        path: 'myClass',
+        name: 'myClass',
+        component: () => import('@/views/teacher/myClass.vue'),
+        meta: { title: '我的班级', icon: 'el-icon-platform-eleme', roles: ['teacher'] }
+      },
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

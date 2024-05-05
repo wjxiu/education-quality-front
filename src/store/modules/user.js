@@ -99,7 +99,7 @@ const actions = {
       commit('RESET_STATE')
       resolve()
     })
-  }
+  },
 }
 
 export default {

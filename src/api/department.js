@@ -49,3 +49,12 @@ export function delDepartment(id) {
         method: 'delete'
     })
 }
+export function getDepartmentByMajorName(majorName) {
+  return request({
+    url: '/department/getDepartmentByMajorName',
+    method: 'get',
+    params: {
+      majorName: majorName
+    }
+  })
+}

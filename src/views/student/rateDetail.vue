@@ -88,29 +88,47 @@
     </el-row>
 
     <el-table ref="mainTable" v-loading="loading" :data="studentRateList">
+      <el-table-column label="学生id" align="center" prop="studentId"/>
       <el-table-column label="学生" align="center" prop="studentName"/>
       <el-table-column label="班级" align="center" prop="stuClassName"/>
       <el-table-column label="课程" align="center" prop="courseName"/>
       <el-table-column label="教师" align="center" prop="teacherName"/>
       <el-table-column label="评分项" align="center" prop="evalItem"/>
       <el-table-column label="评分" align="center" prop="rate"/>
+      <el-table-column label="评分时间" align="center" prop="updateTime"></el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改评分</el-button>
+<!--          fixme:changeRatevisible控制不了隐藏-->
+          <el-popover
+            placement="top"
+            width="160"
+            :model="changeRatevisible">
+            <p>选择新评分</p>
+            <el-rate
+              v-model="changeRateItem"
+              :colors="colors">
+            </el-rate>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="changeRatevisible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="updateStuEvalScore(scope.row.id)">确定</el-button>
+            </div>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handlechangeRate(scope.row.rate)" slot="reference">修改评分</el-button>
+          </el-popover>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
                 @pagination="getList"/>
 
     <!-- 添加或修改班级对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      {{form}}
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="学生id" prop="studentId">
-          <span>  {{ form.studentId }}</span>
-          <!--                    <el-input v-model="form.studentId" placeholder="请输入学生id" />-->
+          <template slot-scope="scope">
+            <span>{{ form.studentId }}</span>
+          </template>
         </el-form-item>
         <el-form-item label="学生名" prop="studentName">
           <span>  {{ form.studentName }}</span>
@@ -196,6 +214,10 @@ export default {
       studentRateList: [],
       evalItems: [],
       teacherCourses: [],
+      changeRatevisible:false,
+      changeRateItem:-1,
+      colors: ['#99A9BF', '#F7BA2A', '#FF9900']  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+
     };
   },
   created() {
@@ -360,7 +382,22 @@ export default {
         console.log(this.evalItems);
 
       })
-
+    },
+    handlechangeRate(oldrate){
+      this.changeRatevisible=true
+      this.changeRateItem=oldrate
+    },
+    updateStuEvalScore(id){
+      let param={
+        id:id,
+        rate:this.changeRateItem
+      }
+      updateStuEval(param).then(res=>{
+        this.$message.success("修改评分成功")
+        this.getList()
+      })
+      this.changeRatevisible=true
+      console.log(this.changeRatevisible);
     },
   }
 };

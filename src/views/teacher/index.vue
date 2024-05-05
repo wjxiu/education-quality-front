@@ -31,7 +31,12 @@
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="el-icon-delete" size="mini" @click.native="handleDelete">删除</el-button>
-
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-upload" size="mini" @click.native="handleImport">导入</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click.stop="downloadTemplate">下载模板</el-button>
       </el-col>
 
       <el-col :span="1.5">
@@ -66,6 +71,11 @@
       <el-table-column label="姓名" align="center" prop="realName" />
       <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="邮箱" align="center" prop="email" />
+      <el-table-column label="性别" align="center" prop="gender">
+        <template slot-scope="scope">
+       <p>   {{ scope.row.gender === 1 ? '男' : (scope.row.gender === 0 ? '女' : 'qqq') }}</p>
+        </template>
+      </el-table-column>
       <el-table-column label="管理员标识" align="center" prop="adminFlag">
         <template slot-scope="scope">
           <i :class="scope.row.adminFlag === 1 ? 'el-icon-check' : 'el-icon-close'
@@ -98,10 +108,16 @@
         <el-form-item label="密码" prop="password">
           <el-input v-model="form.password" placeholder="请输入密码" />
         </el-form-item>
+        <el-form-item label="性别" prop="gender" label-width="100px">
+          <el-select v-model="form.gender" placeholder="请选择性别" clearable >
+            <el-option label="男" :value="1"></el-option>
+            <el-option label="女" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">
           <el-select v-model="form.adminFlag" placeholder="请选择管理员标识" clearable >
-            <el-option label="是" value="1"></el-option>
-            <el-option label="不是" value="0"></el-option>
+            <el-option label="是" :value="1"></el-option>
+            <el-option label="不是" :value="0"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -109,6 +125,18 @@
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
+    </el-dialog>
+    <el-dialog :visible="uploadVisible" title="批量导入教师(自动上传)"  :before-close="handleBeforeClose">
+      <el-upload
+        class="upload-demo"
+        action="http://localhost:8081/user/batchTeacherImport"
+        :before-upload="beforeUpload"
+        :on-error="handleUploadError"
+        :on-success="handleUploadSuccess"
+        :file-list="file">
+        <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xlsx文件</div>
+      </el-upload>
     </el-dialog>
   </div>
 </template>
@@ -159,12 +187,57 @@ export default {
       form: {},
       // 表单校验
       rules: {},
+      uploadVisible:false,
+      file:[],
     };
   },
   created() {
     this.getList();
   },
   methods: {
+    handleBeforeClose(){
+      this.uploadVisible=false
+    },
+    downloadTemplate(event){
+      // 创建一个隐藏的链接
+      const link = document.createElement('a');
+      link.href = '/static/教师导入模板.xlsx';
+      link.setAttribute('download', '教师导入模板.xlsx');
+      link.style.display = 'none';
+      document.body.appendChild(link);
+
+      // 触发链接点击事件
+      link.click();
+
+      // 移除链接
+      document.body.removeChild(link);
+
+    },
+    handleUploadError(error, file, fileList) {
+      this.$message.error('文件上传失败，请重试！');
+      console.error('文件上传失败：', error, file, fileList);
+    },
+    handleUploadSuccess(response, file, fileList) {
+      console.log(response);
+      if (response.code===200){
+        this.$message.success('文件上传成功');
+      }else{
+        this.$message.error('文件上传失败或处理失败');
+        this.$message.error(response.message);
+      }
+      // console.error('文件上传失败：', response, file, fileList);
+    },
+
+    handleImport(){
+      this.uploadVisible=true
+    },
+    beforeUpload(file){
+      const ismatch=file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      if (!ismatch) {
+        this.$message.error('上传文件只能是 XLSX 格式!');
+        return false;
+      }
+    },
     handleExpand() { },
     /** 查询【请填写功能名称】列表 */
     getList() {
@@ -191,6 +264,7 @@ export default {
         delFlag: null,
         password: null,
         adminFlag: null,
+        gender:null,
       };
       this.resetForm("form");
     },
@@ -214,7 +288,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加【请填写功能名称】";
+      this.title = "添加教师";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -223,7 +297,7 @@ export default {
       getTeacher(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改【请填写功能名称】";
+        this.title = "修改教师";
       });
     },
     /** 提交按钮 */

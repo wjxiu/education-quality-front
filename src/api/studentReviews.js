@@ -16,12 +16,15 @@ export function getReview(id) {
     method: 'get'
   })
 }
-export function getReviewByLoginTeacher(stuClassId,courseId) {
+export function getReviewByLoginTeacher(param,pageNum,pageSize) {
   return request({
     url: '/studentReviews/commentOfTeacher',
-    method: 'get',
-    params:{stuClassId,courseId}
-
+    method: 'post',
+    data:param,
+    params: {
+      pageNum: pageNum,
+      pageSize: pageSize
+    },
   })
 }
 

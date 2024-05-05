@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getAlleval(teacherid,stuClassId) {
+export function getAlleval(teacherid,stuClassId,questionnaireId) {
   return request({
-    url: '/eval/stu/' + teacherid+"/"+stuClassId,
+    url: '/eval/stu/' + teacherid+"/"+stuClassId+"/"+questionnaireId,
     method: 'get',
   })
 }
@@ -18,5 +18,12 @@ export function submitEval(data) {
     url: '/eval/submit/',
     method: 'post',
     data
+  })
+}
+// GET http://localhost:8081/stuEval/rateList
+export function rateList() {
+  return request({
+    url: '/stuEval/rateList' ,
+    method: 'get'
   })
 }

@@ -55,4 +55,12 @@ export function delStudent(id) {
     method: 'delete'
   })
 }
+export function getStudentRate(form) {
+  return request({
+    url: '/stuEval/getOneStudentRate' ,
+    method: 'get',
+    params:form
+  })
+}
+
 

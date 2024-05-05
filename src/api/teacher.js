@@ -56,3 +56,9 @@ export function getTeacherCourse(id) {
     method: 'get'
   })
 }
+export function getTeacherYear(id) {
+  return request({
+    url: '/teacher/getTeacherYear/'+id,
+    method: 'get'
+  })
+}

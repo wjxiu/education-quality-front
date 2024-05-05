@@ -62,3 +62,17 @@ export function deleteStuClassStudent(stuClassId,studentIds) {
     method: 'delete'
   })
 }
+export function getStuClassByCourseID(courseId) {
+  return request({
+    url: `/stuClass/getStuClassByCourseID/${courseId}`,
+    method: 'get'
+
+
+  })
+}
+export function exportExcel() {
+  return request({
+    url: `/stuClass/export/`,
+    method: 'get',
+  })
+}

@@ -34,7 +34,7 @@
 
       <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin">Login</el-button>
-      <el-button :loading="loading" type="primary"
+      <el-button  type="primary" @click="$router.push('/register')"
         style="width: 100%; margin-bottom: 30px;margin-left: 0px;">Register</el-button>
     </el-form>
 
@@ -64,7 +64,7 @@ export default {
     return {
       loginForm: {
         id: "1",
-        password: "123",
+        password: "123456",
         type: "0",
       },
       loginRules: {
@@ -106,7 +106,8 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
+              // this.$router.push({ path: this.redirect || "/" });
+              this.$router.push({ path: "/dashboard" });
               this.loading = false;
             })
             .catch(() => {

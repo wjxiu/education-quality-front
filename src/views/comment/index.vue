@@ -2,7 +2,8 @@
 import {getReviewByLoginTeacher} from '@/api/studentReviews'
 import XLSX from 'xlsx';
 import {getTeacherClasses, getTeacherCourse, getTeacherYear} from '@/api/teacher'
-import {getStuClassByCourseID} from "@/api/stuClass";
+import {getStuClassByCourseID} from '@/api/stuClass'
+
 export default {
   data() {
     return {
@@ -11,14 +12,6 @@ export default {
       courseList: [],
       startYearList: [],
       TermList: ['上学期', '下学期', '全年'],
-      // Integer stuClassId;
-      // Integer courseId;
-      // Integer startYear;
-      // String term;
-      // String teacherName;
-      // Integer teacherId;
-      // String studentName;
-      // Integer studentId;
       searchParam: {
         stuClassId: '',
         courseId: '',
@@ -29,7 +22,6 @@ export default {
       pageNum:1,
       pageSize:10,
       total:0,
-
     }
   },
   watch:{
@@ -45,7 +37,6 @@ export default {
       }
   },
   created() {
-    this.searchParam.teacherId=this.$store.state.user.id;
     getReviewByLoginTeacher(this.searchParam,this.pageNum,this.pageSize).then(res => {
       this.ViewList = res.data.list
       this.total=res.data.total
@@ -111,7 +102,7 @@ export default {
       // 将workbook转换为Excel文件的二进制数据
       let excelBuffer = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
       // 保存文件
-      this.saveExcelFile(excelBuffer, this.$store.state.user.name+'的评价.xlsx');
+      this.saveExcelFile(excelBuffer, this.$store.state.user.name + '的评价.xlsx');
     },
     // 保存Excel文件
     saveExcelFile(buffer, fileName) {
@@ -122,9 +113,9 @@ export default {
       link.click();
     },
     search() {
-      getReviewByLoginTeacher(this.searchParam,this.pageNum,this.pageSize).then(res => {
+      getReviewByLoginTeacher(this.searchParam, this.pageNum, this.pageSize).then(res => {
         this.ViewList = res.data.list
-        this.total=res.data.total
+        this.total = res.data.total
       })
     },
     reset() {
@@ -132,8 +123,8 @@ export default {
         stuClassId: '',
         courseId: '',
         term: '',
-        startYear:'' ,
-        teacherId:this.$store.state.user.id,
+        startYear: '',
+        teacherId:null,
       }
       this.search()
     }
@@ -145,6 +136,9 @@ export default {
 <template>
   <div class="app-container">
 
+    输入教师id
+    <el-input v-model="searchParam.teacherId" clearable placeholder="输入教师id" style="width: auto">
+    </el-input>
     选择班级
     <el-select v-model="searchParam.stuClassId" clearable placeholder="请选择班级">
       <el-option v-for="stuClass in stuClassList" :key="stuClass.id" :label="stuClass.name"
@@ -159,19 +153,16 @@ export default {
     <el-select v-model="searchParam.startYear" clearable placeholder="请选择年份">
       <el-option v-for="startYear in startYearList" :key="startYear" :label="startYear" :value="startYear"></el-option>
     </el-select>
-    <br>
+
     选择学期
     <el-select v-model="searchParam.term" clearable placeholder="请选择学期">
       <el-option v-for="course in TermList" :key="course" :label="course" :value="course"></el-option>
     </el-select>
-    <br>
-    <div style="padding-top: 15px">
-
+    <hr>
     <el-button type="primary" @click="search()">查询</el-button>
-      <el-button type="primary" @click="reset()">重置</el-button>
-      <el-button type="primary" @click="exportToExcel">导出为Excel</el-button>
-    </div>
-
+    <el-button type="primary" @click="reset()">重置</el-button>
+    <el-button type="primary" @click="exportToExcel">导出Excel</el-button>
+    <hr>
     <el-table :data="ViewList" id="out-table">
       <el-table-column label="学生id" align="center">
         <template slot-scope="scope">
@@ -203,6 +194,11 @@ export default {
           {{ scope.row.relation.stuClassName }}
         </template>
       </el-table-column>
+      <el-table-column label="老师id" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.relation.teacherId }}
+        </template>
+      </el-table-column>
       <el-table-column label="老师姓名" align="center">
         <template slot-scope="scope">
           {{ scope.row.relation.teacherName }}
@@ -210,12 +206,14 @@ export default {
       </el-table-column>
       <el-table-column label="评价" align="center" show-overflow-tooltip>
         <template slot-scope="scope">
-          {{ scope.row.relation.comment }}
+          <!-- 使用条件语句判断评论是否为空 -->
+          {{ scope.row.relation.comment || '未评价' }}
         </template>
       </el-table-column>
       <el-table-column label="评论时间" align="center">
         <template slot-scope="scope">
-          {{ scope.row.relation.commentTime }}
+          <!-- 使用条件语句判断评论时间是否为空 -->
+          {{ scope.row.relation.commentTime || '暂无评论时间' }}
         </template>
       </el-table-column>
     </el-table>

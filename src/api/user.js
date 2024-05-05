@@ -22,3 +22,31 @@ export function logout() {
     method: 'post'
   })
 }
+export function changepasswd(passwordForm) {
+  return request({
+    url: '/user/changepasswd',
+    method: 'post',
+    data:passwordForm
+  })
+}
+export function getFailOrUnCheck(query) {
+  return request({
+    url: '/user/getFailOrUnCheck',
+    method: 'get',
+    params:query
+  })
+}
+export function approveforstudent(studentId,confirm) {
+  return request({
+    url: '/user/approveforstudent',
+    method: 'post',
+    params:{studentId,confirm}
+  })
+}
+export function register(user) {
+  return request({
+    url: '/user/register',
+    method: 'post',
+    params:user
+  })
+}

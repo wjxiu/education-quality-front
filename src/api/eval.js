@@ -34,6 +34,13 @@ export function updateEval(data) {
         data: data
     })
 }
+export function updateEvalBatch(data) {
+  return request({
+    url: '/eval/updateList',
+    method: 'put',
+    data: data
+  })
+}
 
 // 删除评分管理
 export function delEval(id) {
@@ -41,4 +48,18 @@ export function delEval(id) {
         url: '/eval/' + id,
         method: 'delete'
     })
+}
+export function getquestionEval(questionId) {
+  return request({
+    url: '/eval/question' ,
+    method: 'get',
+    params:{questionId:questionId}
+  })
+}
+export function notlink(questionId) {
+  return request({
+    url: '/eval/notlink' ,
+    method: 'get',
+    params:{questionId:questionId}
+  })
 }
