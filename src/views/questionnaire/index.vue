@@ -83,6 +83,24 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-upload" size="mini" @click.native="handleImport">导入</el-button>
+      </el-col>
+
+      <el-col :span="1.5">
+          <el-popover
+            placement="top-start"
+            title="标题"
+            width="200"
+            trigger="hover">
+            <el-button type="warning" size="mini" plain icon="el-icon-download" slot="reference">下载模板</el-button>
+            <el-button type="warning" plain icon="el-icon-download" size="mini" @click.stop="downloadTemplatenormal">下载问卷-选项模板</el-button>
+            <el-button type="warning" plain icon="el-icon-download" size="mini" @click.stop="downloadTemplate">下载问卷-选项-课程关联模板</el-button>
+          </el-popover>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
+      </el-col>
+      <el-col :span="1.5">
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
       </el-col>
     </el-row>
@@ -226,7 +244,27 @@
     <el-button type="primary" @click="confirmAddItem">确认</el-button>
   </span>
     </el-dialog>
-
+    <el-dialog :visible="uploadVisible" title="批量导入问卷(自动上传)"  :before-close="handleBeforeClose">
+      <el-upload
+        class="upload-demo"
+        action="http://localhost:8081/questionnaire/import"
+        :before-upload="beforeUpload"
+        :headers="customHeaders"
+        :on-success="handleUploadSuccess"
+        :file-list="file">
+        <el-button size="small" type="primary">点击上传问卷-选项文件</el-button>
+      </el-upload>
+      <el-upload
+        class="upload-demo"
+        action="http://localhost:8081/questionnaire/importWithCourse"
+        :before-upload="beforeUpload"
+        :headers="customHeaders"
+        :on-success="handleUploadSuccess"
+        :file-list="file">
+        <el-button size="small" type="primary">点击上传问卷-选项-课程关联的文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xlsx文件</div>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -245,6 +283,7 @@ export default {
   name: "Questionnaire",
   data() {
     return {
+      file:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -296,12 +335,68 @@ export default {
       },
       itemSingle: true,
       itemMultiple: true,
+      uploadVisible:false,
+      customHeaders: {
+        Authorization: this.$store.state.user.token,
+      }
     };
   },
   created() {
     this.getList();
   },
   methods: {
+    handleBeforeClose(){
+      this.uploadVisible=false
+      this.getList();
+    },
+    // handleBeforeClose
+    beforeUpload(file){
+      const ismatch=file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      if (!ismatch) {
+        this.$message.error('上传文件只能是 XLSX 格式!');
+        return false;
+      }
+    },
+    handleUploadError(error, file, fileList) {
+      this.$message.error('文件上传失败，请重试！');
+      console.error('文件上传失败：', error, file, fileList);
+    },
+    handleUploadSuccess(response, file, fileList) {
+      if (response){
+        this.$message.success('文件上传成功');
+        this.getList();
+      }else{
+        this.$message.error('文件上传失败或处理失败');
+        this.getList();
+      }
+    },
+    handleImport(){
+      this.uploadVisible=true
+    },
+    downloadTemplatenormal(event){
+      // 创建一个隐藏的链接
+      const link = document.createElement('a');
+      link.href = '/static/问卷-选项导入模板.xlsx';
+      link.setAttribute('download', '问卷-选项导入模板.xlsx');
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      // 触发链接点击事件
+      link.click();
+      // 移除链接
+      document.body.removeChild(link);
+    },
+    downloadTemplate(event){
+      // 创建一个隐藏的链接
+      const link = document.createElement('a');
+      link.href = '/static/问卷-选项-课程导入模板.xlsx';
+      link.setAttribute('download', '问卷-选项-课程导入模板.xlsx');
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      // 触发链接点击事件
+      link.click();
+      // 移除链接
+      document.body.removeChild(link);
+    },
     handleExpandChange(row, expandedRows) {
       if (expandedRows.includes(row)) {
         getquestionEval(row.id).then(res => {
@@ -487,10 +582,26 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('quesiontnaire/questionnaire/export', {
-        ...this.queryParams
-      }, `questionnaire_${new Date().getTime()}.xlsx`)
+      const a = document.createElement('a')
+      a.href = 'http://localhost:8081/questionnaire/export'
+      a.download = '文件名'
+      a.style.display = 'none'
+      a.target = 'downloadFile'
+      document.body.appendChild(a) // 兼容火狐
+      a.click()
+      document.body.removeChild(a) // 移除a标签
     }
   }
 };
 </script>
+<style>
+.upload-container {
+  display: flex;
+  justify-content: space-between; /* 水平间隔平均分布 */
+}
+
+.upload-item {
+  flex: 1; /* 均分父容器的宽度 */
+  margin-right: 20px; /* 可根据需要调整两个上传组件之间的间距 */
+}
+</style>

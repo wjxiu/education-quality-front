@@ -37,10 +37,11 @@
       <!--      <el-col :span="1.5">-->
       <!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>-->
       <!--      </el-col>-->
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="questionVisable=true">自定义问卷
-        </el-button>
-      </el-col>
+<!--      todo 展示删除自定义微卷-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="questionVisable=true">自定义问卷-->
+<!--        </el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
       </el-col>
@@ -62,8 +63,8 @@
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleClassStudent(scope.row)">查看班级学生
           </el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handlelinkOpen(scope.row)">问卷分配
-          </el-button>
+<!--          <el-button size="mini" type="text" icon="el-icon-edit" @click="handlelinkOpen(scope.row)">问卷分配-->
+<!--          </el-button>-->
         </template>
       </el-table-column>
     </el-table>

@@ -4,24 +4,11 @@
     <div class="dashboard-text">当前角色为: {{ roleText }}</div>
     <div class="dashboard-text">
       <div v-if="type === 0">
-        <div v-if="StudentRemainStuClassRateList.length>0">
-          未完成评价的班级：
-          <ul>
-            <li v-for=" item in StudentRemainStuClassRateList">{{ item }}</li>
-          </ul>
-        </div>
-        <div v-else>已经全部完成评价</div>
+
+        <div>剩余 {{remaincount}} 个没有完成</div>
       </div>
       <div v-else-if="type === 1">
         以下是评分情况
-<!--        <br>-->
-<!--        总体平均数：-->
-<!--        <span v-if="StudentRateSituation.length>0">-->
-<!--           {{ StudentRateSituation[0].mean }}-->
-<!--        </span>-->
-<!--        <span v-else>-->
-<!--          暂无数据-->
-<!--        </span>-->
         <br>
         <el-table :data="RateItemList" >
           <el-table-column type="expand">
@@ -55,13 +42,14 @@ export default {
       // 学生未评价的
       StudentRemainStuClassRateList: [],
       ClassRateSituationRespList: [],
+      remaincount:0,
     }
   },
   created() {
     if (this.type === 0) {
       this.roleText = '学生'
       getStudentRemainStuClassRate(this.id).then(res => {
-        this.StudentRemainStuClassRateList = res.data
+        this.remaincount = res.data
       })
     } else if (this.type === 1) {
       this.roleText = '教师'
@@ -69,6 +57,11 @@ export default {
         this.StudentRateSituation = res.data
         if (res.data.length>0){
           this.RateItemList=res.data
+          this.RateItemList.forEach(a=>{
+            if (a.mean === "NaN") {
+              a.mean="暂无数据"
+            }
+          })
         }
       })
     } else if (this.type === 2) {

@@ -2,7 +2,7 @@
   <div class="centered-container">
     <el-container>
       <el-aside width="250px">
-        <el-card>教师|课程列表|问卷</el-card>
+        <el-card>教师|班级列表|问卷</el-card>
         <el-menu>
           <el-menu-item v-for="teacher in teachers"
                         @click="handlechangeteacher(teacher)">
@@ -77,6 +77,8 @@ export default {
         "evalItemId": 0,
         "teacherId": 0,
         "stuClassId": 0,
+        'questionnaireId':0,
+        'courseId':0,
         'list': [{
           "evalItemId": 0,
           "rate": 0
@@ -127,11 +129,13 @@ export default {
       temp.list = list;
       temp.comment = this.comment;
       temp.studentId=this.$store.state.user.id
+      temp.questionnaireId=this.selectedTeacher.questionnaireId
+      temp.courseId=this.selectedTeacher.courseId
       // 禁用按钮
       // this.buttonDisabled = true;
       submitEval(temp).then(res => {
         this.$message.success("保存成功")
-        getAlleval(this.selectedTeacher.teacherId, this.selectedTeacher.stuClassId, this.selectedTeacher.questionnaireId).then(res => {
+        getAlleval(this.selectedTeacher.teacherId, this.selectedTeacher.stuClassId, this.selectedTeacher.questionnaireId,this.selectedTeacher.courseId).then(res => {
           this.evaluationItems = res.data.list;
           this.comment = res.data.comment
         })
@@ -145,10 +149,9 @@ export default {
     handlechangeteacher(teacher) {
       console.log(teacher);
       this.selectedTeacher = teacher
-      getAlleval(teacher.teacherId, teacher.stuClassId, teacher.questionnaireId).then(res => {
+      getAlleval(teacher.teacherId, teacher.stuClassId, teacher.questionnaireId,teacher.courseId).then(res => {
         // this.evaluationItems = res.data.list.map(item => ({ item, score: item.rate !== null ? item.rate : 0 }));
         this.evaluationItems = res.data.list
-        console.log(this.evaluationItems);
         this.comment = res.data.comment
       })
     },

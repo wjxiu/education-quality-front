@@ -7,12 +7,12 @@
       <el-form-item label="姓名" prop="realName">
         <el-input v-model="queryParams.realName" placeholder="姓名" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">
-        <el-select v-model="queryParams.adminFlag" placeholder="请选择管理员标识" clearable >
-          <el-option label="是" value="1"></el-option>
-          <el-option label="不是" value="0"></el-option>
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">-->
+<!--        <el-select v-model="queryParams.adminFlag" placeholder="请选择管理员标识" clearable >-->
+<!--          <el-option label="是" value="1"></el-option>-->
+<!--          <el-option label="不是" value="0"></el-option>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
 
 
       <el-form-item>
@@ -76,12 +76,12 @@
        <p>   {{ scope.row.gender === 1 ? '男' : (scope.row.gender === 0 ? '女' : 'qqq') }}</p>
         </template>
       </el-table-column>
-      <el-table-column label="管理员标识" align="center" prop="adminFlag">
-        <template slot-scope="scope">
-          <i :class="scope.row.adminFlag === 1 ? 'el-icon-check' : 'el-icon-close'
-            " style="font-size: 20px"></i>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="管理员标识" align="center" prop="adminFlag">-->
+<!--        <template slot-scope="scope">-->
+<!--          <i :class="scope.row.adminFlag === 1 ? 'el-icon-check' : 'el-icon-close'-->
+<!--            " style="font-size: 20px"></i>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
@@ -114,12 +114,12 @@
             <el-option label="女" :value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">
-          <el-select v-model="form.adminFlag" placeholder="请选择管理员标识" clearable >
-            <el-option label="是" :value="1"></el-option>
-            <el-option label="不是" :value="0"></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="管理员标识" prop="adminFlag" label-width="100px">-->
+<!--          <el-select v-model="form.adminFlag" placeholder="请选择管理员标识" clearable >-->
+<!--            <el-option label="是" :value="1"></el-option>-->
+<!--            <el-option label="不是" :value="0"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
